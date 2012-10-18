@@ -235,13 +235,13 @@ abstract public class EndlessAdapter extends AdapterWrapper {
   @TargetApi(11)
   private <T> void executeAsyncTask(AsyncTask<T, ?, ?> task,
                                     T... params) {
-    if (!isSerialized
-        && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)) {
-      task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-    }
-    else {
+   // if (!isSerialized
+  //      && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)) {
+   //   task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+   // }
+   // else {
       task.execute(params);
-    }
+   // }
   }
 
   /**

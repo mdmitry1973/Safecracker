@@ -29,44 +29,41 @@ public final class R {
         public static final int ic_action_search=0x7f02000c;
         public static final int ic_item_number_background=0x7f02000d;
         public static final int ic_launcher=0x7f02000e;
+        public static final int safecracking=0x7f02000f;
     }
     public static final class id {
-        public static final int ListView1=0x7f080001;
-        public static final int ListView2=0x7f080002;
-        public static final int ListView3=0x7f080003;
-        public static final int ListView4=0x7f080004;
-        public static final int button1=0x7f080007;
-        public static final int button2=0x7f080008;
-        public static final int button3=0x7f080009;
-        public static final int image_1=0x7f08000b;
-        public static final int image_2=0x7f08000c;
-        public static final int linearLayout1=0x7f080000;
-        public static final int listViewResult=0x7f080005;
-        public static final int menu_settings=0x7f08001b;
-        public static final int radioButton0=0x7f08001a;
-        public static final int radioButton1=0x7f08000e;
-        public static final int radioButton2=0x7f08000f;
-        public static final int radioButton3=0x7f080010;
-        public static final int radioButton4=0x7f080012;
-        public static final int radioButton5=0x7f080013;
-        public static final int radioButton6=0x7f080014;
-        public static final int radioButton7=0x7f080016;
-        public static final int radioButton8=0x7f080017;
-        public static final int radioButton9=0x7f080018;
-        public static final int relativeLayout1=0x7f080006;
-        public static final int tableRow1=0x7f08000d;
-        public static final int tableRow2=0x7f080011;
-        public static final int tableRow3=0x7f080015;
-        public static final int tableRow5=0x7f080019;
-        public static final int text=0x7f08000a;
+        public static final int ListView1=0x7f070001;
+        public static final int ListView2=0x7f070002;
+        public static final int ListView3=0x7f070003;
+        public static final int ListView4=0x7f070004;
+        public static final int button1=0x7f070007;
+        public static final int button2=0x7f070008;
+        public static final int button3=0x7f070009;
+        public static final int image_1=0x7f07000b;
+        public static final int image_2=0x7f07000c;
+        public static final int linearLayout1=0x7f070000;
+        public static final int listViewResult=0x7f070005;
+        public static final int radioButton0=0x7f07001a;
+        public static final int radioButton1=0x7f07000e;
+        public static final int radioButton2=0x7f07000f;
+        public static final int radioButton3=0x7f070010;
+        public static final int radioButton4=0x7f070012;
+        public static final int radioButton5=0x7f070013;
+        public static final int radioButton6=0x7f070014;
+        public static final int radioButton7=0x7f070016;
+        public static final int radioButton8=0x7f070017;
+        public static final int radioButton9=0x7f070018;
+        public static final int relativeLayout1=0x7f070006;
+        public static final int tableRow1=0x7f07000d;
+        public static final int tableRow2=0x7f070011;
+        public static final int tableRow3=0x7f070015;
+        public static final int tableRow5=0x7f070019;
+        public static final int text=0x7f07000a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int item=0x7f030001;
         public static final int pad_numbers=0x7f030002;
-    }
-    public static final class menu {
-        public static final int activity_main=0x7f070000;
     }
     public static final class string {
         public static final int Exit=0x7f040010;

@@ -2,7 +2,6 @@ package com.mdmitry1973.safecracker;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 
 import java.util.*;
@@ -16,10 +15,7 @@ public class MainActivity extends Activity {
 	private int countSteps;
 	
 	private int r_num[];
-	
-	//private Dialog dialogPad;
-	//private Button buttonCur;
-	
+
 	private ListView listResult;
 	private LazyAdapter listArrayAdapter;
 	
@@ -39,6 +35,8 @@ public class MainActivity extends Activity {
         
         r_num = new int [4];
         
+        setTitle(R.string.app_name);
+        
         try{
         
         	listResult = (ListView) findViewById(R.id.listViewResult);  
@@ -52,7 +50,7 @@ public class MainActivity extends Activity {
         }
     	catch(Exception exp)
     	{
-    		Log.i("Exception", "Exception " + exp.toString());    		
+    		//Log.i("Exception", "Exception " + exp.toString());    		
     	}
         
         try{
@@ -62,7 +60,7 @@ public class MainActivity extends Activity {
         }
     	catch(Exception exp)
     	{
-    		Log.i("Exception", "Exception " + exp.toString());    		
+    		//Log.i("Exception", "Exception " + exp.toString());    		
     	}
         
         listNumbersItems = new Integer [10];
@@ -96,13 +94,13 @@ public class MainActivity extends Activity {
       
         ResetNum();
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-    
+    */
  
     private void ResetNum()
     {
@@ -149,8 +147,7 @@ public class MainActivity extends Activity {
     	}
     }
     
-    @SuppressWarnings("deprecation")
-	public void clickTry(View view) {
+    public void clickTry(View view) {
         
     	long num_temp[];
     	int count_full_com = 0;
@@ -170,7 +167,7 @@ public class MainActivity extends Activity {
     			num_temp[i] = num_temp[i] - (tt *10);
     			
     		}
-    		Log.i("num_temp", "num_temp[" + i + "]=" + num_temp[i]);
+    		//Log.i("num_temp", "num_temp[" + i + "]=" + num_temp[i]);
     	}
     	
     	for(int i = 0; i < 3; i++)
@@ -190,8 +187,7 @@ public class MainActivity extends Activity {
     		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
     		alertDialog.setTitle("Alert");
     		alertDialog.setMessage("You need have different numbers.");
-    		//alertDialog.
-    		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+    		alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
     		   public void onClick(DialogInterface dialog, int which) {
     			   dialog.cancel();
     		   }
@@ -229,12 +225,11 @@ public class MainActivity extends Activity {
         data_image_1.insertElementAt(count_full_com, 0);
         data_image_2.insertElementAt(count_part_com, 0);
         
-        Log.i("dataString", "dataString" + strItem + "count_full_com=" + count_full_com + "count_part_com=" + count_part_com);  
+        //Log.i("dataString", "dataString" + strItem + "count_full_com=" + count_full_com + "count_part_com=" + count_part_com);  
     	
     	if (count_full_com == 4)
     	{
-    		strItem = String.format("The end game %d%d%d%d", r_num[0], r_num[1], r_num[2], r_num[3]);
-    		//listResultItems.insertElementAt(strItem, 0);
+    		strItem = String.format("The end game. You found right number %d%d%d%d", r_num[0], r_num[1], r_num[2], r_num[3]);
     		dataString.insertElementAt(strItem, 0);
             data_image_1.insertElementAt(-1, 0);
             data_image_2.insertElementAt(-1, 0);
@@ -243,7 +238,7 @@ public class MainActivity extends Activity {
     		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
     		alertDialog.setTitle("Alert");
     		alertDialog.setMessage(strItem);
-    		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+    		alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
     		   public void onClick(DialogInterface dialog, int which) {
     			   dialog.cancel();
     		   }
@@ -270,53 +265,4 @@ public class MainActivity extends Activity {
     	
     	finish();
     }
-    
-    /*
-    public void clickButtonNum(View view) {
-    	
-    	dialogPad = new Dialog(this);
-
-    	dialogPad.setContentView(R.layout.pad_numbers);
-    	dialogPad.setTitle("Choose number");
-    	
-    	buttonCur = (Button)view;
-    	String currentNumber = buttonCur.getText().toString();
-    	int curentNum = Integer.parseInt(currentNumber);
-    	
-    	//set up button
-    	RadioButton buttonNums[] = new RadioButton[10];
-    	
-    	try{
-    		
-    		buttonNums[0] = (RadioButton) dialogPad.findViewById(R.id.radioButton0);
-	        buttonNums[1] = (RadioButton) dialogPad.findViewById(R.id.radioButton1);
-	        buttonNums[2] = (RadioButton) dialogPad.findViewById(R.id.radioButton2);
-	        buttonNums[3] = (RadioButton) dialogPad.findViewById(R.id.radioButton3);
-	        buttonNums[4] = (RadioButton) dialogPad.findViewById(R.id.radioButton4);
-	        buttonNums[5] = (RadioButton) dialogPad.findViewById(R.id.radioButton5);
-	        buttonNums[6] = (RadioButton) dialogPad.findViewById(R.id.radioButton6);
-	        buttonNums[7] = (RadioButton) dialogPad.findViewById(R.id.radioButton7);
-	        buttonNums[8] = (RadioButton) dialogPad.findViewById(R.id.radioButton8);
-	        buttonNums[9] = (RadioButton) dialogPad.findViewById(R.id.radioButton9);
-    	}
-    	catch(Exception exp)
-    	{
-    		Log.i("Exception", "Exception " + exp.toString());    		
-    	}
-        
-        buttonNums[curentNum].setChecked(true);
-        
-        for(int i = 0; i < 10; i++)
-        {
-	        buttonNums[i].setOnClickListener(new OnClickListener() {
-	        	public void onClick(View v) {
-	        		buttonCur.setText(((RadioButton)v).getText());
-	        		dialogPad.cancel();
-	            }
-	        });
-        }
-    	
-        dialogPad.show();
-    }	
-    */
 }
