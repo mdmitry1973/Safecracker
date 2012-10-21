@@ -65,6 +65,12 @@ public class LazyAdapter extends BaseAdapter {
 	        if (data_image_1.get(position) == 4)
 	        	image1.setImageResource(R.drawable.coin_gold_4);
 	        else
+	        if (data_image_1.get(position) == 5)
+	        	image1.setImageResource(R.drawable.coin_gold_5);
+	        else
+	        if (data_image_1.get(position) == 6)
+	        	image1.setImageResource(R.drawable.coin_gold_6);
+	        else
 	        {
 	        	image1.setVisibility(View.INVISIBLE);
 	        }
@@ -81,6 +87,12 @@ public class LazyAdapter extends BaseAdapter {
 	        if (data_image_2.get(position) == 4)
 	        	image2.setImageResource(R.drawable.coin_silver_4);
 	        else
+	        if (data_image_2.get(position) == 5)
+	 	        image2.setImageResource(R.drawable.coin_silver_5);
+	 	    else
+	 	    if (data_image_2.get(position) == 6)
+	 		    image2.setImageResource(R.drawable.coin_silver_6);
+	 		else
 	        {
 	        	image2.setVisibility(View.INVISIBLE);
 	        }

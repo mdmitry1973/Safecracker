@@ -1,12 +1,15 @@
 package com.mdmitry1973.safecracker;
 
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.Environment;
 import android.app.Activity;
-import android.view.Menu;
-
+import android.app.Dialog;
+import android.util.Log;
 import java.util.*;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.widget.*;
 import android.view.*;
 
@@ -27,13 +30,23 @@ public class MainActivity extends Activity {
 	private Vector<String> dataString;
     private Vector<Integer> data_image_1;
     private Vector<Integer> data_image_2;
+    
+    private int numberDigites;
+    
+    private static final boolean DEBUG = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       
+        if (DEBUG) 
+        {
+        	Debug.startMethodTracing("sampletrace");
+        	Log.d("sampletrace", Environment.getExternalStorageDirectory().toString());
+        }
         
-        r_num = new int [4];
+        numberDigites = 4;
         
         setTitle(R.string.app_name);
         
@@ -65,35 +78,38 @@ public class MainActivity extends Activity {
         
         listNumbersItems = new Integer [10];
         
-        listNumbersItems[0] = 0;
-        listNumbersItems[1] = 1;
-        listNumbersItems[2] = 2;
-        listNumbersItems[3] = 3;
-        listNumbersItems[4] = 4;
-        listNumbersItems[5] = 5;
-        listNumbersItems[6] = 6;
-        listNumbersItems[7] = 7;
-        listNumbersItems[8] = 8;
-        listNumbersItems[9] = 9;
-        
-        listNumbers = new ListView [4];
-        
-        listNumbers[0] = (ListView) findViewById(R.id.ListView1);
-        listNumbers[1] = (ListView) findViewById(R.id.ListView2);
-        listNumbers[2] = (ListView) findViewById(R.id.ListView3);
-        listNumbers[3] = (ListView) findViewById(R.id.ListView4);
-        
-        listNumbersArrayAdapter = new CircularArrayAdapter [4];
-       
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 10; i++)
         {
-        	listNumbersArrayAdapter[i] = new CircularArrayAdapter(listNumbers[i].getContext(), android.R.layout.simple_list_item_1, listNumbersItems);
-            listNumbers[i].setAdapter(listNumbersArrayAdapter[i]);
-            listNumbersArrayAdapter[i].notifyDataSetChanged();         	
+        	listNumbersItems[i] = i;
         }
-      
+        
+        
         ResetNum();
     }
+    
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+       super.onWindowFocusChanged(hasFocus);
+       
+       LinearLayout mainLayout = (LinearLayout) findViewById(R.id.linearLayoutMain); 
+       LinearLayout pickLayout = (LinearLayout) findViewById(R.id.linearLayout1); 
+       Button buttonsExit = (Button) findViewById(R.id.buttonExit); 
+       
+       int heightMainLayout = mainLayout.getHeight();
+       int heightButtonLayout = buttonsExit.getHeight();
+       int heightPickers = pickLayout.getLayoutParams().height;
+       
+       if (heightButtonLayout == 0)
+       {
+    	   heightButtonLayout = 50;
+       }
+       
+       listResult.getLayoutParams().height = heightMainLayout - heightPickers - heightButtonLayout;
+       
+       mainLayout.requestLayout();
+       mainLayout.invalidate();
+    }
+
 /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,19 +117,56 @@ public class MainActivity extends Activity {
         return true;
     }
     */
- 
-    private void ResetNum()
+    
+    private void SetupLayout()
     {
     	int i;
+    	int width = 0;
     	Random generator = new Random();
+    
+    	LinearLayout linearLayout1 = (LinearLayout)findViewById(R.id.linearLayout1);
+    	
+    	linearLayout1.removeAllViews();
+    	
+    	Display display = getWindowManager().getDefaultDisplay();
+    	width = display.getWidth();
+
+    	width = width / numberDigites;
+		 
+    	listNumbers = new ListView [numberDigites];
+    	listNumbersArrayAdapter = new CircularArrayAdapter [numberDigites];
+		 
+    	for(i = 0; i < numberDigites; i++)
+    	{
+		 	ListView listNumber = new ListView(this);
+		 
+		    listNumber.setBackgroundResource(R.drawable.ic_item_number_background);
+		    listNumber.setDividerHeight(0);		    
+		    listNumber.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		    listNumber.setScrollingCacheEnabled(false);
+		    listNumber.setFooterDividersEnabled(false);
+		    listNumber.setHeaderDividersEnabled(false);
+		    listNumber.setVerticalScrollBarEnabled(false);
+		    listNumber.setHorizontalScrollBarEnabled(false);
+		  
+		    listNumbers[i] = listNumber;
+		    
+		    listNumbersArrayAdapter[i] = new CircularArrayAdapter(listNumbers[i].getContext(), android.R.layout.simple_list_item_1, listNumbersItems);
+		    listNumbers[i].setAdapter(listNumbersArrayAdapter[i]);
+		    listNumbersArrayAdapter[i].notifyDataSetChanged();         	
+		    
+		    linearLayout1.addView(listNumber, new ListView.LayoutParams(width, ViewGroup.LayoutParams.FILL_PARENT));
+    	}
     	
     	countSteps = 0;
+    	
+    	r_num = new int [numberDigites];
     	
     	r_num[0] = generator.nextInt(9);
     	r_num[0] = generator.nextInt(9);
     	r_num[0] = generator.nextInt(9);
         
-    	for(i = 0; i < 4; i++)
+    	for(i = 0; i < numberDigites; i++)
     	{
     		if (i > 0)
     		{
@@ -141,10 +194,52 @@ public class MainActivity extends Activity {
     		}
     	}
     	
-    	for(i = 0; i < 4; i++)
+    	for(i = 0; i < numberDigites; i++)
     	{
     		listNumbers[i].setSelection(i);
     	}
+    }
+ 
+    private void ResetNum()
+    {	
+		 final Dialog dialogChooseLevel = new Dialog(this);
+
+    	 dialogChooseLevel.setContentView(R.layout.start_page);
+    	 dialogChooseLevel.setTitle("Choose level");
+    	
+    	 Button buttonBeginner		= (Button) dialogChooseLevel.findViewById(R.id.Beginner);
+    	 Button buttonIntermediate	= (Button) dialogChooseLevel.findViewById(R.id.Intermediate);
+    	 Button buttonExpert		= (Button) dialogChooseLevel.findViewById(R.id.Expert);
+    	
+    	 
+    	 buttonBeginner.setOnClickListener(new View.OnClickListener() {
+	        	public void onClick(View v) {
+	        		
+	        		numberDigites = 4;
+	        		dialogChooseLevel.cancel();
+	        		SetupLayout();
+	            }
+	        });
+    	 
+    	 buttonIntermediate.setOnClickListener(new View.OnClickListener() {
+	        	public void onClick(View v) {
+	        		
+	        		numberDigites = 5;
+	        		dialogChooseLevel.cancel();
+	        		SetupLayout();
+	            }
+	        });
+    	 
+    	 buttonExpert.setOnClickListener(new View.OnClickListener() {
+	        	public void onClick(View v) {
+	        		
+	        		numberDigites = 6;
+	        		dialogChooseLevel.cancel();
+	        		SetupLayout();
+	            }
+	        });
+    	
+    	 dialogChooseLevel.show();
     }
     
     public void clickTry(View view) {
@@ -154,9 +249,9 @@ public class MainActivity extends Activity {
     	int count_part_com = 0;
     	boolean hasDub = false; 
     	
-    	num_temp = new long [4];
+    	num_temp = new long [numberDigites];
     	
-    	for(int i = 0; i < 4; i++)
+    	for(int i = 0; i < numberDigites; i++)
     	{
     		num_temp[i] = listNumbers[i].pointToPosition(listNumbers[i].getHeight()/2, listNumbers[i].getWidth()/2);
     		
@@ -170,9 +265,9 @@ public class MainActivity extends Activity {
     		//Log.i("num_temp", "num_temp[" + i + "]=" + num_temp[i]);
     	}
     	
-    	for(int i = 0; i < 3; i++)
+    	for(int i = 0; i < numberDigites - 1; i++)
     	{
-    		for(int n = i + 1; n < 4; n++)
+    		for(int n = i + 1; n < numberDigites; n++)
         	{
     			if (num_temp[i] == num_temp[n])
     			{
@@ -197,9 +292,9 @@ public class MainActivity extends Activity {
     		return;
     	}
     	
-    	for(int i = 0; i < 4; i++)
+    	for(int i = 0; i < numberDigites; i++)
     	{
-    		for(int n = 0; n < 4; n++)
+    		for(int n = 0; n < numberDigites; n++)
         	{
     			if (r_num[i] == num_temp[n])
     			{
@@ -219,7 +314,12 @@ public class MainActivity extends Activity {
     	
     	countSteps++;
     	
-    	strItem = String.format("%d %d%d%d%d", countSteps, num_temp[0], num_temp[1], num_temp[2], num_temp[3]);//, count_full_com, count_part_com);//, r_num[0], r_num[1], r_num[2], r_num[3]);
+    	strItem = String.format("%d ", countSteps);
+    	
+    	for(int i = 0; i < numberDigites; i++)
+		{
+			strItem = strItem + String.format("%d", num_temp[i]);
+		}
     	
     	dataString.insertElementAt(strItem, 0);
         data_image_1.insertElementAt(count_full_com, 0);
@@ -227,9 +327,13 @@ public class MainActivity extends Activity {
         
         //Log.i("dataString", "dataString" + strItem + "count_full_com=" + count_full_com + "count_part_com=" + count_part_com);  
     	
-    	if (count_full_com == 4)
+    	if (count_full_com == numberDigites)
     	{
-    		strItem = String.format("The end game. You found right number %d%d%d%d", r_num[0], r_num[1], r_num[2], r_num[3]);
+    		strItem = "The end game. You found right number ";
+    		for(int i = 0; i < numberDigites; i++)
+    		{
+    			strItem = strItem + String.format("%d", r_num[i]);
+    		}
     		dataString.insertElementAt(strItem, 0);
             data_image_1.insertElementAt(-1, 0);
             data_image_2.insertElementAt(-1, 0);
@@ -251,8 +355,8 @@ public class MainActivity extends Activity {
     	listArrayAdapter.notifyDataSetChanged();   
     }
     
-    public void clickReset(View view) {
-    	
+    public void clickReset(View view) 
+    {
     	ResetNum();
     	
     	dataString.clear();
@@ -261,8 +365,13 @@ public class MainActivity extends Activity {
     	listArrayAdapter.notifyDataSetChanged();
     }
     
-    public void clickExit(View view) {
-    	
+    public void clickExit(View view) 
+    {
     	finish();
+    	
+    	if (DEBUG) 
+        {
+    		Debug.stopMethodTracing();
+        }
     }
 }

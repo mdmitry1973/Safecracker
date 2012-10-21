@@ -31,4 +31,7 @@
     <string name="Exit">Exit</string>
     <string name="gold_coin">gold coin</string>
     <string name="silver_coin">silver coin</string>
+    <string name="Intermediate">Intermediate</string>
+    <string name="Beginner">Beginner</string>
+    <string name="Expert">Expert</string>
 </resources>
