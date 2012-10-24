@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.*;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.widget.*;
 import android.view.*;
 
@@ -205,7 +205,7 @@ public class MainActivity extends Activity {
 		 final Dialog dialogChooseLevel = new Dialog(this);
 
     	 dialogChooseLevel.setContentView(R.layout.start_page);
-    	 dialogChooseLevel.setTitle("Choose level");
+    	 dialogChooseLevel.setTitle(R.string.Chooselevel);
     	
     	 Button buttonBeginner		= (Button) dialogChooseLevel.findViewById(R.id.Beginner);
     	 Button buttonIntermediate	= (Button) dialogChooseLevel.findViewById(R.id.Intermediate);
@@ -248,6 +248,7 @@ public class MainActivity extends Activity {
     	int count_full_com = 0;
     	int count_part_com = 0;
     	boolean hasDub = false; 
+    	Resources res = getResources();
     	
     	num_temp = new long [numberDigites];
     	
@@ -280,14 +281,14 @@ public class MainActivity extends Activity {
     	if (hasDub)
     	{
     		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-    		alertDialog.setTitle("Alert");
-    		alertDialog.setMessage("You need have different numbers.");
+    		alertDialog.setTitle(R.string.Alert);
+    		alertDialog.setMessage(res.getString(R.string.AlertMsg));
     		alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
     		   public void onClick(DialogInterface dialog, int which) {
     			   dialog.cancel();
     		   }
     		});
-    		//alertDialog.setIcon(R.drawable.icon);
+    	
     		alertDialog.show();
     		return;
     	}
@@ -329,7 +330,7 @@ public class MainActivity extends Activity {
     	
     	if (count_full_com == numberDigites)
     	{
-    		strItem = "The end game. You found right number ";
+    		strItem = res.getString(R.string.AlertMsg2);
     		for(int i = 0; i < numberDigites; i++)
     		{
     			strItem = strItem + String.format("%d", r_num[i]);
@@ -340,7 +341,7 @@ public class MainActivity extends Activity {
     		listArrayAdapter.notifyDataSetChanged();   
     		
     		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-    		alertDialog.setTitle("Alert");
+    		alertDialog.setTitle(R.string.TheEnd);
     		alertDialog.setMessage(strItem);
     		alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
     		   public void onClick(DialogInterface dialog, int which) {
